@@ -10,7 +10,7 @@ function createPromise(name) {
     const time = randomTime();
     setTimeout(() => {
       resolve({ name, time });
-    }, time * 1000);
+    }, time * 6000);
   });
 }
 
