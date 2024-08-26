@@ -2,7 +2,7 @@ const output = document.getElementById('output');
 const loadingRow = document.getElementById('loading');
 
 function randomTime() {
-  return Math.random() * 2000 + 1000; // Random time between 1000ms and 3000ms
+  return Math.random() * 1000 + 1000; // Random time between 1000ms and 2000ms
 }
 
 function createPromise(name) {
