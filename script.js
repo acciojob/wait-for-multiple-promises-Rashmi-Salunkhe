@@ -1,44 +1,49 @@
-//your JS code here. If required.
 const output = document.getElementById('output');
+const loadingRow = document.getElementById('loading');
 
 function randomTime() {
-  return Math.floor(Math.random() * 3) + 1;
+  return Math.random() * 2000 + 1000; // Random time between 1000ms and 3000ms
 }
 
 function createPromise(name) {
+  const startTime = Date.now();
   return new Promise((resolve) => {
-    const time = randomTime();
+    const delay = randomTime();
     setTimeout(() => {
-      resolve({ name, time });
-    }, time * 6000);
+      const endTime = Date.now();
+      const timeTaken = (endTime - startTime) / 1000; // Convert to seconds
+      resolve({ name, time: timeTaken.toFixed(3) });
+    }, delay);
   });
 }
 
 const promises = [
   createPromise('Promise 1'),
   createPromise('Promise 2'),
-  createPromise('Promise 3'),
+  createPromise('Promise 3')
 ];
+
+const startTime = Date.now();
 
 Promise.all(promises)
   .then((results) => {
-    output.innerHTML = ''; // Clear existing content
-
+    loadingRow.remove(); // Remove the loading row
     let totalTime = 0;
     results.forEach((result) => {
-      totalTime += result.time;
+      totalTime += parseFloat(result.time);
       const row = output.insertRow();
       const nameCell = row.insertCell();
       const timeCell = row.insertCell();
       nameCell.textContent = result.name;
       timeCell.textContent = result.time;
     });
-
     const totalRow = output.insertRow();
     const totalNameCell = totalRow.insertCell();
     const totalTimeCell = totalRow.insertCell();
     totalNameCell.textContent = 'Total';
-    totalTimeCell.textContent = totalTime.toFixed(3); // Format to 3 decimal places
+    const endTime = Date.now();
+    const actualTotalTime = ((endTime - startTime) / 1000).toFixed(3);
+    totalTimeCell.textContent = actualTotalTime;
   })
   .catch((error) => {
     console.error(error);
